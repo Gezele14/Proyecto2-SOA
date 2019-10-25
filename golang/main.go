@@ -1,42 +1,44 @@
-// credit - go-graphql hello world example
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "log"
+	"log"
+	"net/http"
 
-    "github.com/graphql-go/graphql"
+	"github.com/Sebasrs/SOAP2/Golang/sql"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/render"
 )
 
 func main() {
-    // Schema
-    fields := graphql.Fields{
-        "hello": &graphql.Field{
-            Type: graphql.String,
-            Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-                return "world", nil
-            },
-        },
-    }
-    rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
-    schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
-    schema, err := graphql.NewSchema(schemaConfig)
-    if err != nil {
-        log.Fatalf("failed to create new schema, error: %v", err)
-    }
+	// Initialize our api and return a pointer to our router for http.ListenAndServe
+	// and a pointer to our db to defer its closing when main() is finished
+	router, db := initializeAPI()
+	defer db.Close()
 
-    // Query
-    query := `
-        {
-            hello
-        }
-    `
-    params := graphql.Params{Schema: schema, RequestString: query}
-    r := graphql.Do(params)
-    if len(r.Errors) > 0 {
-        log.Fatalf("failed to execute graphql operation, errors: %+v", r.Errors)
-    }
-    rJSON, _ := json.Marshal(r)
-    fmt.Printf("%s \n", rJSON) // {“data”:{“hello”:”world”}}
+	// Listen on port 4000 and if there's an error log it and exit
+	log.Fatal(http.ListenAndServe(":4000", router))
+}
+
+func initializeAPI() (*chi.Mux, *sql.Db) {
+	// Create a new router
+	router := chi.NewRouter()
+
+	// Create a new connection to our pg database
+	db, err := sql.New("root:Serbas1500@tcp(127.0.0.1:3306)/soa")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Add some middleware to our router
+	router.Use(
+		render.SetContentType(render.ContentTypeJSON), // set content-type headers as application/json
+		middleware.Logger,          // log api request calls
+		middleware.DefaultCompress, // compress results, mostly gzipping assets and json
+		middleware.StripSlashes,    // match paths with a trailing slash, strip it, and continue routing through the mux
+		middleware.Recoverer,       // recover from panics without crashing server
+	)
+
+	return router, db
 }
