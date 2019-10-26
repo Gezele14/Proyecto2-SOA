@@ -1,16 +1,12 @@
-package main
+package server
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
-	"sql"
-
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/render"
 
 	"github.com/Gezele14/Proyecto2-SOA/golang/graphql"
+	"github.com/go-chi/render"
+	"github.com/graphql-go/graphql"
 )
 
 type Server struct {
@@ -41,29 +37,4 @@ func (s *Server) GraphQL() http.HandlerFunc {
 
 		render.JSON(w, r, result)
 	}
-}
-
-func initializeAPI() (*chi.Mux, *sql.Db) {
-
-	router := chi.NewRouter()
-	db, err := sql.New("root:123456@tcp(192.168.219.93:3306)/restDB")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	router.Use(
-		render.SetContentType(render.ContentTypeJSON),
-		middleware.Logger,
-		middleware.DefaultCompress,
-		middleware.StripSlashes,
-		middleware.Recoverer,
-	)
-
-	return router, db
-}
-
-func main() {
-	router, db := initializeAPI()
-	defer db.Close()
-	log.Fatal(http.ListenAndServe(":8100", router))
 }
