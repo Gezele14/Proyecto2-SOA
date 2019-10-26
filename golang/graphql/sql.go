@@ -1,3 +1,4 @@
+package graphql
 
 import (
 	"database/sql"
