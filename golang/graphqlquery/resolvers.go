@@ -3,7 +3,7 @@ package graphqlquery
 import (
 	"strconv"
 
-	"../database"
+	"github.com/Gezele14/Proyecto2-SOA/golang/database"
 	"github.com/graphql-go/graphql"
 )
 

@@ -11,8 +11,8 @@ import (
 	"github.com/go-chi/render"
 	"github.com/graphql-go/graphql"
 
-	"../database"
-	"../graphqlquery"
+	"github.com/Gezele14/Proyecto2-SOA/golang/database"
+	"github.com/Gezele14/Proyecto2-SOA/golang/graphqlquery"
 )
 
 type Server struct {

@@ -4,10 +4,8 @@
 # Start from the latest golang base image
 FROM golang:latest
 
-
 # Set the Current Working Directory inside the container
 WORKDIR /app
-
 
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . .
@@ -16,4 +14,4 @@ COPY . .
 EXPOSE 8100
 
 # Command to run the executable
-CMD ["go", "run", "/main/main.go"]
+CMD ["go","run","main.go"]     
