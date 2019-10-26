@@ -6,7 +6,7 @@ import csv #for CSVs
 
 # Database connection 
 soaDatabase = mySql.connect(
-    host="localhost",
+    host="192.168.219.98",
     user="root",
     password="123456",
     database="restDB"
