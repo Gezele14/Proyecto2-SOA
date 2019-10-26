@@ -5,9 +5,9 @@ CREATE  (costarica:Pais{name:"Costa Rica"}),
         (sanjose:Provincia{name:"San Jose"}),
         (heredia:Provincia{name:"Heredia"}),
         //Restaurants
-        (rest1:Restaurant{name:"restaTEC Cartago"}),
-        (rest2:Restaurant{name:"restaTEC San Jose"}),
-        (rest3:Restaurant{name:"restaTEC Heredia"}),
+        (rest1:Restaurant{name:"restaTEC Cartago", disp: "L-V", horario: "7:00a.m-9:00p.m"}),
+        (rest2:Restaurant{name:"restaTEC San Jose",disp: "k-V", horario: "9:00a.m-5:00p.m"}),
+        (rest3:Restaurant{name:"restaTEC Heredia", disp: "L-j", horario: "6:00a.m-3:00p.m"}),
         //Services
         (music:Service{name:"Musica"}),
         (bar:Service{name:"Bar"}),
