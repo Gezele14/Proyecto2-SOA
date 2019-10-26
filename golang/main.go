@@ -1,44 +1,69 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
+	"sql"
 
-	"github.com/Sebasrs/SOAP2/Golang/sql"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
+
+	"github.com/Gezele14/Proyecto2-SOA/golang/graphql"
 )
 
-func main() {
-	// Initialize our api and return a pointer to our router for http.ListenAndServe
-	// and a pointer to our db to defer its closing when main() is finished
-	router, db := initializeAPI()
-	defer db.Close()
+type Server struct {
+	GqlSchema *graphql.Schema
+}
 
-	// Listen on port 4000 and if there's an error log it and exit
-	log.Fatal(http.ListenAndServe(":4000", router))
+type reqBody struct {
+	Query string `json:"query"`
+}
+
+func (s *Server) GraphQL() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		if r.Body == nil {
+			http.Error(w, "Must provide graphql query in request body", 400)
+			return
+		}
+
+		var rBody reqBody
+
+		err := json.NewDecoder(r.Body).Decode(&rBody)
+
+		if err != nil {
+			http.Error(w, "Error parsing JSON request body", 400)
+		}
+
+		result := graphql.ExecuteQuery(rBody.Query, *s.GqlSchema)
+
+		render.JSON(w, r, result)
+	}
 }
 
 func initializeAPI() (*chi.Mux, *sql.Db) {
-	// Create a new router
+
 	router := chi.NewRouter()
-
-	// Create a new connection to our pg database
-	db, err := sql.New("root:Serbas1500@tcp(127.0.0.1:3306)/soa")
-
+	db, err := sql.New("root:123456@tcp(192.168.219.93:3306)/restDB")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Add some middleware to our router
 	router.Use(
-		render.SetContentType(render.ContentTypeJSON), // set content-type headers as application/json
-		middleware.Logger,          // log api request calls
-		middleware.DefaultCompress, // compress results, mostly gzipping assets and json
-		middleware.StripSlashes,    // match paths with a trailing slash, strip it, and continue routing through the mux
-		middleware.Recoverer,       // recover from panics without crashing server
+		render.SetContentType(render.ContentTypeJSON),
+		middleware.Logger,
+		middleware.DefaultCompress,
+		middleware.StripSlashes,
+		middleware.Recoverer,
 	)
 
 	return router, db
+}
+
+func main() {
+	router, db := initializeAPI()
+	defer db.Close()
+	log.Fatal(http.ListenAndServe(":8100", router))
 }
