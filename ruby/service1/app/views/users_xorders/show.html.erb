@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Idusers:</strong>
+  <%= @users_xorder.idUsers %>
+</p>
+
+<p>
+  <strong>Idorders:</strong>
+  <%= @users_xorder.idOrders %>
+</p>
+
+<%= link_to 'Edit', edit_users_xorder_path(@users_xorder) %> |
+<%= link_to 'Back', users_xorders_path %>

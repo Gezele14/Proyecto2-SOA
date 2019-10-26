@@ -1,0 +1,27 @@
+<%= form_with(model: users_xorder, local: true) do |form| %>
+  <% if users_xorder.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(users_xorder.errors.count, "error") %> prohibited this users_xorder from being saved:</h2>
+
+      <ul>
+        <% users_xorder.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :idUsers %>
+    <%= form.number_field :idUsers %>
+  </div>
+
+  <div class="field">
+    <%= form.label :idOrders %>
+    <%= form.number_field :idOrders %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

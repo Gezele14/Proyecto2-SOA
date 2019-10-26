@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  idUsers: 1
+  idOrders: 1
+
+two:
+  idUsers: 1
+  idOrders: 1
