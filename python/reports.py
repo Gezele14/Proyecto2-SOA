@@ -23,8 +23,8 @@ def byUser(id):
         + "JOIN restaurants ON restaurantsXorders.idRestaurants = restaurants.idRestaurants " 
         + "JOIN orders ON restaurantsXorders.idOrders = orders.idOrders " 
         + "JOIN provinces ON restaurants.idProvinces = provinces.idProvinces "
-        + "JOIN usersxorders ON orders.idOrders = usersxorders.idOrders "
-        + "JOIN users ON users.idUsers = usersxorders.idUsers "
+        + "JOIN usersXorders ON orders.idOrders = usersXorders.idOrders "
+        + "JOIN users ON users.idUsers = usersXorders.idUsers "
         + "JOIN clients ON users.idClients = clients.idClients "
         + "WHERE users.idUsers = " + str(id))
         reportService.execute(byUsers)
