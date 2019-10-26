@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  idRestaurants: 1
+  idOrders: 1
+
+two:
+  idRestaurants: 1
+  idOrders: 1

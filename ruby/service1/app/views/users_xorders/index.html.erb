@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users Xorders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Idusers</th>
+      <th>Idorders</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users_xorders.each do |users_xorder| %>
+      <tr>
+        <td><%= users_xorder.idUsers %></td>
+        <td><%= users_xorder.idOrders %></td>
+        <td><%= link_to 'Show', users_xorder %></td>
+        <td><%= link_to 'Edit', edit_users_xorder_path(users_xorder) %></td>
+        <td><%= link_to 'Destroy', users_xorder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Users Xorder', new_users_xorder_path %>

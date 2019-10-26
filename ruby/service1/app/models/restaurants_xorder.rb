@@ -1,0 +1,2 @@
+class RestaurantsXorder < ApplicationRecord
+end

@@ -1,0 +1,27 @@
+<%= form_with(model: restaurants_xorder, local: true) do |form| %>
+  <% if restaurants_xorder.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(restaurants_xorder.errors.count, "error") %> prohibited this restaurants_xorder from being saved:</h2>
+
+      <ul>
+        <% restaurants_xorder.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :idRestaurants %>
+    <%= form.number_field :idRestaurants %>
+  </div>
+
+  <div class="field">
+    <%= form.label :idOrders %>
+    <%= form.number_field :idOrders %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

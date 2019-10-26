@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Idrestaurants:</strong>
+  <%= @restaurants_xorder.idRestaurants %>
+</p>
+
+<p>
+  <strong>Idorders:</strong>
+  <%= @restaurants_xorder.idOrders %>
+</p>
+
+<%= link_to 'Edit', edit_restaurants_xorder_path(@restaurants_xorder) %> |
+<%= link_to 'Back', restaurants_xorders_path %>

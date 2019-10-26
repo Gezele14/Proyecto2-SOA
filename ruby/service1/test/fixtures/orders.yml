@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  orderDate: 2019-10-22 21:30:26
+  details: MyString
+  idRestaurants: 1
+
+two:
+  orderDate: 2019-10-22 21:30:26
+  details: MyString
+  idRestaurants: 1

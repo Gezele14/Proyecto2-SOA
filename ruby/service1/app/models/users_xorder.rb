@@ -1,0 +1,2 @@
+class UsersXorder < ApplicationRecord
+end
