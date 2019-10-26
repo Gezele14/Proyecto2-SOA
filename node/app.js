@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan")
 const bodyParser = require('body-parser')
-var neo4j = require('neo4j-driver').v1
+const neo4j = require('node-neo4j');
+
+db = new neo4j('http://neo4j:123456@192.168.219.99:7474');
 
 const app = express();
 
@@ -15,8 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '123456'));
-const session = driver.session();
 
 app.get('/', function(req, res){
     session
@@ -32,31 +32,32 @@ app.get('/', function(req, res){
         res.send('it works')
 });
 
+app.get('/catalog-service/Restaurants', function(req, res){
+    db.cypherQuery("Match (n:Restaurant) RETURN n", function(err, result) {
+        if (err) res.send(err);
+        res.send(result.data);
+    });
+});
 
-app.post('/restaurant/add',function(req,res){
-    const name = req.body.name;
-    const province = req.body.province;
-
-    session
-        .run('CREATE(n:Restaurant {name: {nameParam}}) RETURN n.name', {nameParam: name})
-        .then(function(result){
-            session
-                .run(   'MATCH(a:Restaurant{name: {nameParam}}), (b:Provincia{name: {provinceParam}}) '+
-                        'MERGE(a)-[:en]->(b)', {nameParam: name, provinceParam: province})
-                .then(function(result){
-                    console.log('Restaurante agregado correctamente')
-                    session.close();
-                })
-                .catch(function(err){
-                    console.log(err)
-                })
-        })
-        .catch(function(err){
-            console.log(err)
-        })
-})
-
-app.listen(3000);
-console.log('Server Started on Port 3000');
+app.get('/catalog-service/services', function(req, res){
+    db.cypherQuery("Match (n:Service) RETURN n", function(err, result) {
+        if (err) res.send(err);
+        res.send(result.data);
+    });
+});
+app.get('/catalog-service/Food', function(req, res){
+    db.cypherQuery("MATCH (n:Food) RETURN n", function(err, result) {
+        if (err) res.send(err);
+        res.send(result.data);
+    });
+});
+app.get('/catalog-service/Drink', function(req, res){
+    db.cypherQuery("MATCH (n:Drink) RETURN n", function(err, result) {
+        if (err) res.send(err);
+        res.send(result.data);
+    });
+});
+app.listen(4000);
+console.log('Server Started on Port 4000');
 
 module.exports = app;
