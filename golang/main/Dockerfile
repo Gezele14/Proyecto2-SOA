@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 8100
 
 # Command to run the executable
-CMD ["go","run","main.go"]     
+CMD ["./main"]     

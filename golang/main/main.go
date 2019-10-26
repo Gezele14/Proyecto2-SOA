@@ -60,7 +60,7 @@ func initializeAPI() (*chi.Mux, *database.Db) {
 	router := chi.NewRouter()
 
 	// Create a new connection to our pg database
-	db, err := database.New("root:123456@tcp(192.168.219.93:3306)/restDB")
+	db, err := database.New("root:123456@tcp(mysql:3306)/restDB")
 
 	if err != nil {
 		log.Fatal(err)

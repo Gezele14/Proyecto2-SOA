@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan")
 const bodyParser = require('body-parser')
-var neo4j = require('neo4j-driver').v1
+var neo4j = require('node-neo4j');
+
+db = new neo4j('http://neo4j:123456@neo4j-service:7474');
 
 const app = express();
 
