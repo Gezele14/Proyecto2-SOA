@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"sql"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
